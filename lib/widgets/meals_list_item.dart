@@ -1,9 +1,10 @@
 part of "widgets.dart";
 
 class MealsListItem extends StatelessWidget {
-  const MealsListItem(this.meal, {super.key});
+  const MealsListItem({required this.meal,required this.onSelectMeal, super.key});
 
   final Meal meal;
+  final void Function(Meal meal) onSelectMeal;
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +17,14 @@ class MealsListItem extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       clipBehavior:Clip.hardEdge ,
-      child: Stack(
+      child:  Stack(
         children: [
           FadeInImage(
             placeholder: MemoryImage(kTransparentImage),
             image: NetworkImage(meal.imageUrl),
-            // fit: BoxFit.cover,
-            // height: 200,
-            // width: double.infinity,
+            fit: BoxFit.cover,
+            height: 200,
+            width: double.infinity,
           ),
           Positioned(
             top: 0,
@@ -31,7 +32,23 @@ class MealsListItem extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: MealsItemDetails(meal: meal),
-          )
+          ),
+          Positioned(
+            /// Effective way of adding splash effect, when inkwell splash effect does not work because child overlaps it.
+            /// We just put Inkwell on top of whole stack And Rap the inkwell with material of type transparent,
+            left: 0.0,
+            top: 0.0,
+            bottom: 0.0,
+            right: 0.0,
+            child: Material(
+              type: MaterialType.transparency,
+              child: InkWell(
+                onTap: () async {
+                  onSelectMeal(meal);
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -45,7 +62,7 @@ class MealsItemDetails extends StatelessWidget {
 
   String get complexityText {
     final name = meal.complexity.name;
-    return name[0].toUpperCase() + name.substring(1); 
+    return name[0].toUpperCase() + name.substring(1);
   }
 
   String get affordabilityText {

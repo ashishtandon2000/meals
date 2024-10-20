@@ -6,6 +6,11 @@ class MealsScreen extends StatelessWidget {
   final String title;
   final List<Meal> meals;
 
+  void _onSelectMeal(BuildContext context,Meal meal){
+    // Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MealDetailsScreen(meal)));
+    Navigator.of(context).push(MaterialPageRoute(builder:  (ctx)=>MealDetailsScreen(meal: meal)));
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget content = const EmptyScreenMsg("No meals found");
@@ -18,7 +23,10 @@ class MealsScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           itemCount: meals.length,
           itemBuilder: (context, index) => MealsListItem(
-            meals[index],
+            meal: meals[index],
+            onSelectMeal: (meals){
+              _onSelectMeal(context,meals);
+            },
           ),
         ),
       );
