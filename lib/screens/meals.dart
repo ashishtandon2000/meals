@@ -1,14 +1,15 @@
 part of "screens.dart";
 
 class MealsScreen extends StatelessWidget {
-  const MealsScreen({required this.title, required this.meals, super.key});
+  const MealsScreen({this.title, required this.meals,required this.toggleFavourite, super.key});
 
-  final String title;
+  final Function(Meal meal) toggleFavourite;
+  final String? title;
   final List<Meal> meals;
 
   void _onSelectMeal(BuildContext context,Meal meal){
     // Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MealDetailsScreen(meal)));
-    Navigator.of(context).push(MaterialPageRoute(builder:  (ctx)=>MealDetailsScreen(meal: meal)));
+    Navigator.of(context).push(MaterialPageRoute(builder:  (ctx)=>MealDetailsScreen(meal: meal,toggleFavourite: toggleFavourite,)));
   }
 
   @override
@@ -32,9 +33,13 @@ class MealsScreen extends StatelessWidget {
       );
     }
 
+    if(title==null){// If there is no title, don't show appbar
+      return content;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title!),
       ),
       body: content,
     );

@@ -10,3 +10,4 @@ part 'meals_details.dart';
 part 'categories.dart';
 part 'meals.dart';
 part 'tabs.dart';
+part 'filter_screen.dart';
