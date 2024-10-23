@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meals/screens/screens.dart';
@@ -14,7 +15,7 @@ final theme = ThemeData(
 );
 
 void main() {
-  runApp(const App());
+  runApp(const ProviderScope(child: App()));
 }
 
 class App extends StatelessWidget {
@@ -22,17 +23,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: theme,
-        home: const TabsScreen()
-      // Todo ... si canska sdkjsadn naskdn sajd
-      // TODO s.sadas,spdasdiun
-      //
-    );
+    return MaterialApp(theme: theme, home: const TabsScreen()
+        // Todo ... si canska sdkjsadn naskdn sajd
+        // TODO s.sadas,spdasdiun
+        //
+        );
   }
 }
-
-
 
 /// Example review - a nice way of using form and adding feature of handling incomplete form -
 class _SaveableForm extends StatefulWidget {

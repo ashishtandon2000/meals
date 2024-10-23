@@ -1,9 +1,8 @@
 part of "screens.dart";
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({required this.meals,required this.toggleFavourite, super.key});
+  const CategoriesScreen({required this.meals, super.key});
 
-  final Function(Meal meal) toggleFavourite;
   final List<Meal> meals;
 
   _onSelectCategory(BuildContext context, Category category) {
@@ -13,7 +12,7 @@ class CategoriesScreen extends StatelessWidget {
 
     Navigator.of(context).push(MaterialPageRoute(
         builder: (ctx) =>
-            MealsScreen(title: category.title, meals: categoryMeals,toggleFavourite: toggleFavourite,)));
+            MealsScreen(title: category.title, meals: categoryMeals)));
   }
 
   @override

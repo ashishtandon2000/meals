@@ -1,19 +1,18 @@
 part of "screens.dart";
 
-class MealsScreen extends StatelessWidget {
-  const MealsScreen({this.title, required this.meals,required this.toggleFavourite, super.key});
-
-  final Function(Meal meal) toggleFavourite;
+class MealsScreen extends ConsumerWidget {
+  const MealsScreen({this.title, required this.meals, super.key});
   final String? title;
   final List<Meal> meals;
 
   void _onSelectMeal(BuildContext context,Meal meal){
     // Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MealDetailsScreen(meal)));
-    Navigator.of(context).push(MaterialPageRoute(builder:  (ctx)=>MealDetailsScreen(meal: meal,toggleFavourite: toggleFavourite,)));
+    Navigator.of(context).push(MaterialPageRoute(builder:  (ctx)=>MealDetailsScreen(meal: meal)));
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+
     Widget content = const EmptyScreenMsg("No meals found");
 
     if (meals.isNotEmpty) {
