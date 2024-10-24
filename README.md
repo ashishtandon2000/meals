@@ -16,3 +16,4 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 // fitBuddy
+// In future convert this app into kcal and micronutrient management app, that can manage kcal, protein, carbs, fat , fiber etc. And then a report could be generated analysing food consumption

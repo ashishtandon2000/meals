@@ -24,15 +24,14 @@ class MealDetailsScreen extends ConsumerWidget {
     );
   }
 
-  void _toggleAction(context, Meal meal,bool Function(Meal) toggleFavourite) {
-    final bool isAdded =
-    toggleFavourite(meal);
+  void _toggleAction(context, Meal meal, bool Function(Meal) toggleFavourite) {
+    final bool isAdded = toggleFavourite(meal);
     if (isAdded) {
       _showSnackBar(
         context: context,
         message: "${meal.title} added to favourite",
         revert: () {
-          _toggleAction(context, meal,toggleFavourite);
+          _toggleAction(context, meal, toggleFavourite);
         },
       );
     } else {
@@ -40,37 +39,55 @@ class MealDetailsScreen extends ConsumerWidget {
         context: context,
         message: "${meal.title} removed from favourite",
         revert: () {
-          _toggleAction(context, meal,toggleFavourite);
+          _toggleAction(context, meal, toggleFavourite);
         },
       );
     }
   }
-  
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final favouriteMeals = ref.watch(favouriteMealProvider);
-    final toggleFavourite = ref.read(favouriteMealProvider.notifier).toggleFavourite;
+    final isFavorite = favouriteMeals.contains(meal);
+    final toggleFavourite =
+        ref.read(favouriteMealProvider.notifier).toggleFavourite;
 
     return Scaffold(
         appBar: AppBar(
           title: Text(meal.title),
           actions: [
             IconButton(
-                onPressed: () {
-                  _toggleAction(context, meal,toggleFavourite);
+              onPressed: () {
+                _toggleAction(context, meal, toggleFavourite);
+              },
+              icon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) {
+                  return RotationTransition(
+                    // turns: animation,
+                    turns: Tween<double>(begin: 0.8, end: 1).animate(animation),
+                    child: child,
+                  );
                 },
-                icon: Icon((favouriteMeals.contains(meal))?Icons.star:Icons.star_outline))
+                child: Icon(
+                  isFavorite
+                      ? Icons.star
+                      : Icons.star_border,
+                  key: ValueKey(isFavorite),
+                ),
+              ),
+            )
           ],
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Image.network(
+              Hero(tag: meal.id, child: Image.network(
                 meal.imageUrl,
                 height: 300,
                 width: double.infinity,
                 fit: BoxFit.cover,
-              ),
+              )),
               const SizedBox(height: 14),
               Text(
                 'Ingredients',
